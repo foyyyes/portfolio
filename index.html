@@ -30,6 +30,9 @@
         .main{display:flex;flex-direction:column;gap:16px}
         .gallery-card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(10,10,10,0.06)}
         .gallery-title{display:flex;align-items:center;justify-content:space-between}
+        .live-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+        .live-link{display:inline-block;padding:8px 12px;border-radius:6px;background:#eaf3ff;color:#0b3a66;text-decoration:none;font-size:13px;font-weight:600}
+        .live-link:hover{background:#dbeaff}
         .thumbs{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
         .thumb{width:150px;height:100px;overflow:hidden;border-radius:8px;cursor:pointer;border:1px solid #eee}
         .thumb img{width:100%;height:100%;object-fit:cover;display:block}
@@ -49,7 +52,7 @@
     <header>
         <div class="intro">
             <h1>Fatih Onur Yüler</h1>
-            <p></p>Spezialist für digitale Transformation & Lerntechnologien</p>
+            <p>Spezialist für digitale Transformation & Lerntechnologien</p>
         </div>
     </header>
 
@@ -76,6 +79,7 @@
                     <div id="galleryInfo" style="font-size:13px;color:#556">Zum Vergrößern klicken</div>
                 </div>
                 <div id="galleryDesc" style="margin-top:10px;color:#444;font-size:15px"></div>
+                <div class="live-links" id="galleryLinks"></div>
                 <div class="thumbs" id="thumbs">
                     <!-- küçük görseller -->
                 </div>
@@ -97,16 +101,17 @@
 
     <script>
         const projects = [
-            { id: 'bridgedesk', name: 'BridgeDeskAI', logo: 'BridgeDeskAI/logo.png', images: ['BridgeDeskAI/de/1.JPG','BridgeDeskAI/de/2.JPG','BridgeDeskAI/de/3.JPG','BridgeDeskAI/de/4.JPG','BridgeDeskAI/de/5.JPG'], description: `BridgeDeskAI ist eine leistungsstarke SaaS-Plattform, mit der KMU Kundenanfragen, Teamaufgaben und SLA-Tracking zentral verwalten können. Sie bietet eine skalierbare Lösung mit Echtzeitbenachrichtigungen und Mehrsprachigkeit.` },
-            { id: 'financecoach', name: 'FinanceCoach', logo: 'Finanskocu/logo_ai.png', images: ['Finanskocu/1.png','Finanskocu/2.png','Finanskocu/3.png','Finanskocu/ai_analysis.png'], description: `Es bietet KI-gestützte Budget- und Cashflow-Beratung. Durch personalisierte Sparpläne, Zukunftsprognosen und intelligente Analysen wird die Nutzerbindung erhöht.` },
-            { id: 'kayipdostu', name: 'KayipDostu', logo: 'kayipdostu/logo_de.png', images: ['kayipdostu/1.png'], description: `Die Suche nach verlorenen Gegenständen und Haustieren wird durch gemeinschaftliche Energieversorgung und standortbasierte Technologie um 80 % beschleunigt.` },
-            { id: 'turkeyendeks', name: 'TurkeyEndeks', logo: 'turkeyendeks/1.png', images: ['turkeyendeks/1.png'], description: `Referenzpreis-Index-System für die Papier-Recycling-Industrie. Ermöglicht grafische Analyse von Preisänderungen in Echtzeit. Expertise: rollenbasierte Dateneingabe und Entwicklungsarbeit an Index-Algorithmen.` }
+            { id: 'bridgedesk', name: 'BridgeDeskAI', logo: 'BridgeDeskAI/logo.png', images: ['BridgeDeskAI/de/1.JPG','BridgeDeskAI/de/2.JPG','BridgeDeskAI/de/3.JPG','BridgeDeskAI/de/4.JPG','BridgeDeskAI/de/5.JPG'], description: `BridgeDeskAI ist eine leistungsstarke SaaS-Plattform, mit der KMU Kundenanfragen, Teamaufgaben und SLA-Tracking zentral verwalten können. Sie bietet eine skalierbare Lösung mit Echtzeitbenachrichtigungen und Mehrsprachigkeit.`, links: [{ label: 'Live ansehen', url: 'https://bridgedeskai.web.app' }] },
+            { id: 'financecoach', name: 'FinanceCoach', logo: 'Finanskocu/logo_ai.png', images: ['Finanskocu/1.png','Finanskocu/2.png','Finanskocu/3.png','Finanskocu/ai_analysis.png'], description: `Es bietet KI-gestützte Budget- und Cashflow-Beratung. Durch personalisierte Sparpläne, Zukunftsprognosen und intelligente Analysen wird die Nutzerbindung erhöht.`, links: [{ label: 'Google Play', url: 'https://play.google.com/store/apps/details?id=com.finanskocu.app' }, { label: 'Web Demo', url: 'https://financeasist-1e419.web.app/' }] },
+            { id: 'kayipdostu', name: 'KayipDostu', logo: 'kayipdostu/logo_de.png', images: ['kayipdostu/1.png'], description: `Die Suche nach verlorenen Gegenständen und Haustieren wird durch gemeinschaftliche Energieversorgung und standortbasierte Technologie um 80 % beschleunigt.`, links: [{ label: 'Live ansehen', url: 'https://www.kayipdostu.com' }] },
+            { id: 'turkeyendeks', name: 'TurkeyEndeks', logo: 'turkeyendeks/1.png', images: ['turkeyendeks/1.png'], description: `Referenzpreis-Index-System für die Papier-Recycling-Industrie. Ermöglicht grafische Analyse von Preisänderungen in Echtzeit. Expertise: rollenbasierte Dateneingabe und Entwicklungsarbeit an Index-Algorithmen.`, links: [{ label: 'Live ansehen', url: 'https://turkeyendeks.web.app/' }] }
         ];
 
         const projectListEl = document.getElementById('projectList');
         const thumbsEl = document.getElementById('thumbs');
         const galleryTitle = document.getElementById('galleryTitle');
         const galleryDesc = document.getElementById('galleryDesc');
+        const galleryLinks = document.getElementById('galleryLinks');
         const lightbox = document.getElementById('lightbox');
         const lbImage = document.getElementById('lbImage');
         const lbClose = document.getElementById('lbClose');
@@ -131,6 +136,16 @@
             if(!p) return;
             galleryTitle.textContent = p.name;
             galleryDesc.innerHTML = p.description || '';
+            galleryLinks.innerHTML = '';
+            (p.links || []).forEach(link => {
+                const a = document.createElement('a');
+                a.className = 'live-link';
+                a.href = link.url;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.textContent = link.label;
+                galleryLinks.appendChild(a);
+            });
             thumbsEl.innerHTML = '';
             p.images.forEach(src =>{
                 const d = document.createElement('div'); d.className='thumb';
