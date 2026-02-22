@@ -1,0 +1,31 @@
+KayipDostu, kaybolan cüzdanlardan anahtarlara, saatten evcil hayvanlara kadar her türlü kayıp öğeyi hızlıca bulmayı sağlayan topluluk destekli platformdur. Mobil ve web uygulamasıyla kullanıcılar ilan oluşturur, yakın çevredeki gönüllüler/komşular ile anlık iletişime geçer ve konum-temelli bildirimlerle arama sürecini hızlandırır. Güvenlik, hızlı paylaşım ve ölçeklenebilir altyapı merkezde yer alır.
+
+Problemin Özeti: İnsanlar ve evcil hayvanlar için kaybolma vakaları sık; mevcut çözümler (ilan panoları, sosyal medya) dağınık, eşgüdümsüz ve yavaş.
+Çözümümüz:
+Hızlı ilan oluşturma ve otomatik alan hedeflemesi,
+Konum bazlı push bildirimleri ile çevredeki yardımcıları harekete geçirme,
+Fotoğraf eşleştirme (ML destekli) ve meta veri (kayıp zamanı, son görüldüğü yer) ile hızlı doğrulama,
+Barınaklar, veterinerler, kayıp-çalışan işletmelerle entegrasyon.
+Ürün & Teknoloji:
+Tek kod tabanlı mobil + web (Flutter) ile düşük maliyetli bakım ve hızlı dağıtım,
+Gerçek zamanlı bildirimler ve veri için Firebase + Cloud Functions,
+PWA desteği, offline/çevrimdışı paylaşım kolaylığı.
+Hedef Pazar ve Kullanıcılar:
+Bireysel kullanıcılar (cihaz/eşya sahipleri), evcil hayvan sahipleri, yerel topluluklar,
+Veterinerler, barınaklar, belediye hizmetleri, kayıp-ev eşyaları sektöründeki işletmeler.
+Gelir Modelleri:
+Premium öne çıkarılmış ilanlar (ör. acil/öne çıkar),
+Yerel işletme & veteriner sponsorlukları,
+Kurumsal entegrasyon abonelikleri (belediyeler, barınak ağları),
+Analitik / veri hizmetleri (anonimleştirilmiş trend verileri).
+Rekabet Avantajı:
+Eşya ve canlılar için tek çatı (broad-scope) — daha geniş kullanıcı tabanı ve ağ etkisi,
+Hızlı eşleşme + hedefli bildirimlerle bulunma oranlarında artış,
+Düşük maliyetli, ölçeklenebilir teknoloji yığını.
+Kısa Yol Haritası (MVP → Ölçek):
+Hemen: şehir bazlı pilotlarla temel ilan & bildirim akışı testi,
+3–6 ay: ML fotoğraf eşleştirme prototipi, barınak/vet entegrasyonları,
+6–12 ay: bölgesel genişleme, premium gelir kanallarının açılması.
+Finansman Talebi (Örnek):
+Seed: 250–500K TRY — kullanıcı edinme, pilotlar, ML geliştirme, temel ekip büyümesi.
+Dağılım örneği: pazarlama %40, ürün/altyapı %30, ekip %20, iş geliştirme/yasal %10.

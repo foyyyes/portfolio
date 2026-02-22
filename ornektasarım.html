@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Fatih Onur Yüler - IT & Digital Transformation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --berlin-blue: #003366;
+            --tech-silver: #f8f9fa;
+            --dark: #2d3436;
+            --accent: #0984e3;
+        }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--dark); margin: 0; background: var(--tech-silver); }
+        
+        /* Header Section */
+        header { background: var(--berlin-blue); color: white; padding: 40px 0; text-align: center; border-bottom: 5px solid var(--accent); }
+        .intro h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
+        .intro p { font-size: 1.1rem; opacity: 0.9; margin-top: 10px; }
+
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+
+        /* Akademik Kanıt Bölümü (H+ Vurgusu) */
+        .academic-highlight { background: white; padding: 30px; border-radius: 8px; border-left: 5px solid #27ae60; margin-bottom: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .hplus-badge { background: #27ae60; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+
+        /* Proje Kartları */
+        .project-section { margin-bottom: 50px; }
+        .project-card { display: flex; background: white; margin-bottom: 30px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .project-img { width: 40%; background: #eee; min-height: 250px; object-fit: cover; }
+        .project-info { padding: 30px; width: 60%; }
+        
+        h2 { color: var(--berlin-blue); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .tech-stack { margin: 15px 0; }
+        .tech-tag { background: #e1f0ff; color: #0984e3; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; margin-right: 5px; }
+
+        /* Footer / İletişim */
+        .contact { text-align: center; padding: 40px; background: white; border-top: 1px solid #ddd; }
+        .btn-xing { background: #026466; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="intro">
+        <h1>Fatih Onur Yüler</h1>
+        <p>Spezialist für digitale Transformation & Softwarelösungen</p>
+    </div>
+</header>
+
+<div class="container">
+    
+    <section class="academic-highlight">
+        <h3><i class="fa-solid fa-graduation-cap"></i> Akademischer Hintergrund</h3>
+        <p><strong>Abschluss:</strong> Bachelor of Education (B.Ed.) in Computer Education and Instructional Technology</p>
+        <p><strong>Universität:</strong> Hacettepe Universität <span class="hplus-badge">Anabin: H+</span></p>
+        <p><small>* Meine akademischen Qualifikationen sind in Deutschland voll anerkannt. Detaillierte Transkripte sind im Anhang verfügbar.</small></p>
+    </section>
+
+    <section class="project-section">
+        <h2>Ausgewählte IT-Projekte</h2>
+
+        <div class="project-card">
+            <img src="bridgedesk_de.jpg" alt="BridgeDeskAI" class="project-img">
+            <div class="project-info">
+                <h3>BridgeDeskAI (SaaS Plattform)</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Cloud Architecture</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Multi-Tenancy</span>
+                </div>
+                <p>Eine B2B-Lösung zur Workflow-Optimierung und Kundenkommunikation für KMUs. Fokus auf Prozessautomatisierung und Rollenbasierte Zugriffskontrolle.</p>
+                <p><strong>Impact:</strong> Reduzierung der IT-Verwaltungskosten durch skalierbare Cloud-Infrastruktur.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="financecoach_de.jpg" alt="FinanceCoach" class="project-img">
+            <div class="project-info">
+                <h3>FinanceCoach (FinTech App)</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Mobile Development</span>
+                    <span class="tech-tag">Data Analytics</span>
+                </div>
+                <p>Intelligente Finanzverwaltungs-App mit Cashflow-Analyse. Lokalisiert für den deutschsprachigen Markt.</p>
+                <p><strong>Fokus:</strong> User Experience Design und komplexe Datenvisualisierung.</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <img src="kayipdostu_de.jpg" alt="KayipDostu" class="project-img">
+            <div class="project-info">
+                <h3>KayipDostu (Community-Plattform)</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">Geolocation Services</span>
+                    <span class="tech-tag">Real-time Notifications</span>
+                </div>
+                <p>Eine innovative Lösung zur Vernetzung von Nachbarschaften für die Suche nach vermissten Gegenständen und Haustieren.</p>
+            </div>
+        </div>
+<div class="project-card">
+    <img src="turkeyendeks_de.jpg" alt="TurkeyEndeks" class="project-img">
+    <div class="project-info">
+        <h3>TurkeyEndeks (Industrial Data Analytics)</h3>
+        <div class="tech-stack">
+            <span class="tech-tag">Data Visualization</span>
+            <span class="tech-tag">Index Algorithms</span>
+            <span class="tech-tag">B2B SaaS</span>
+        </div>
+        <p>Ein Referenzpreis-Index-System für die Papier-Recycling-Industrie. Ermöglicht Unternehmen die Analyse von Preisänderungen durch grafische Datenauswertung in Echtzeit.</p>
+        <p><strong>Expertise:</strong> Rollenbasierte Dateneingabe für Firmen und Entwicklung von Analyse-Algorithmen zur Markttrend-Bestimmung.</p>
+    </div>
+</div>
+    </section>
+</div>
+
+<footer class="contact">
+    <p>Haben Sie Interesse an einer Zusammenarbeit?</p>
+    <a href="https://www.xing.com/profile/FatihOnur_Yueler" class="btn-xing"><i class="fa-brands fa-xing"></i> Mein Xing-Profil</a>
+</footer>
+
+</body>
+</html>
