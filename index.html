@@ -169,11 +169,27 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-    <!-- Chatbot (Dijital İkiz) embed -->
-    <script
-        data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
-        data-base-api-url="http://92.5.38.154:3001/api/embed"
-        src="anythingllm-chat-widget.min.js">
-    </script>
+<script>
+  // 1. Kullanıcıyı tarayıcı bazlı ayırt etmek için benzersiz ID oluştur
+  let sessionID = localStorage.getItem('my_bot_session_id');
+  if (!sessionID) {
+    sessionID = 'vds-user-' + Math.random().toString(36).substring(2, 11);
+    localStorage.setItem('my_bot_session_id', sessionID);
+  }
+
+  // 2. Metadata'yı yapılandırarak n8n'e taşınmasını sağla
+  window.anythingLLMConfig = {
+    metadata: {
+      session_id: sessionID,
+      kaynak: "GitHub_Site"
+    }
+  };
+</script>
+
+<script
+  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
+  data-base-api-url="https://hay-debug-sugar-farm.trycloudflare.com/api/embed"
+  src="https://hay-debug-sugar-farm.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+</script>
 </body>
 </html>
