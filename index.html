@@ -207,32 +207,41 @@
     }
   };
 
-  // 4. MutationObserver: Sayfada yeni bir element (buton) oluştuğunda anında yakala
-  const observer = new MutationObserver((mutations) => {
-    const btn = document.getElementById('anything-llm-chat-widget-button');
-    const chatWindow = document.getElementById('anything-llm-chat-widget-container');
+  // 4. MutationObserver: Widget butonu oluşunca yakala, tıkla, gizle
+  const SELECTORS = [
+    '#anything-llm-chat-widget-button',
+    '[id*="chat-widget-button"]',
+    '[id*="anythingllm"][id*="button"]',
+    '[class*="chat-widget-button"]',
+    '[class*="awc-button"]',
+    '[aria-label="Open Chat"]',
+    '[aria-label="open chat"]',
+  ];
 
-    if (btn) {
-      console.log("Buton yakalandı, tıklanıyor...");
-      btn.click(); // Pencereyi aç
-      
-      // Pencere açıldıktan sonra butonu DOM'dan tamamen silebiliriz
-      btn.style.display = 'none'; 
-      
-      // İstediğimiz her şey tamamsa izlemeyi durdur
-      if (chatWindow && chatWindow.classList.contains('showing')) {
-          observer.disconnect();
+  function tryOpenChat() {
+    for (const sel of SELECTORS) {
+      const btn = document.querySelector(sel);
+      if (btn) {
+        btn.click();
+        btn.style.cssText += 'display:none!important;';
+        observer.disconnect();
+        return true;
       }
     }
-  });
+    return false;
+  }
 
-  // Sayfanın tamamını izlemeye başla
+  const observer = new MutationObserver(() => { tryOpenChat(); });
   observer.observe(document.body, { childList: true, subtree: true });
+
+  // Widget zaten yüklüyse direkt dene
+  window.addEventListener('load', () => { setTimeout(tryOpenChat, 500); });
 </script>
 
 <script
   data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
   data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
+  data-open-on-load="true"
   src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
 </script>
 </body>
