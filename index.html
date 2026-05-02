@@ -51,7 +51,7 @@
 <body>
     <header>
         <div class="intro">
-            <h1>Fatih Onur Yülers</h1>
+            <h1>Fatih Onur Yüler</h1>
             <p>Spezialist für digitale Transformation & Lerntechnologien</p>
         </div>
     </header>
@@ -169,23 +169,30 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
+<div id="chat-frame-container" style="width: 100%; max-width: 900px; margin: 20px auto; min-height: 600px;">
+</div>
+
 <script>
-  // Tarayıcı bazlı benzersiz ID
-  let sessionID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
-  localStorage.setItem('my_bot_session_id', sessionID);
+  // 1. Session ID Oluşturma (n8n susturma filtresi için şart)
+  let sID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
+  localStorage.setItem('my_bot_session_id', sID);
 
-  window.anythingLLMConfig = {
-    metadata: {
-      session_id: sessionID,
-      kaynak: "GitHub_Site"
-    }
-  };
-</script>
+  // 2. Chatbotu Iframe olarak oluşturma
+  const iframe = document.createElement('iframe');
+  
+  // Cloudflare linkin ve Embed ID'ni birleştiriyoruz
+  // Not: ?session_id ekleyerek n8n'e bu veriyi paslamayı deniyoruz
+  iframe.src = `https://barry-keeps-translate-until.trycloudflare.com/embed/3315f6f1-a1c2-415d-b7d6-473d05c99984`;
+  
+  // Tasarım Ayarları
+  iframe.style.width = "100%";
+  iframe.style.height = "650px"; // Buradan yüksekliği ayarlayabilirsin
+  iframe.style.border = "1px solid #e0e0e0";
+  iframe.style.borderRadius = "15px";
+  iframe.style.boxShadow = "0 10px 30px rgba(0,0,0,0.1)";
 
-<script
-  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
-  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
-  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+  // Ekrana bas
+  document.getElementById('chat-frame-container').appendChild(iframe);
 </script>
 </body>
 </html>
