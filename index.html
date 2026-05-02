@@ -51,7 +51,7 @@
 <body>
     <header>
         <div class="intro">
-            <h1>Fatih Onur Yüler</h1>
+            <h1>Fatih Onur Yülers</h1>
             <p>Spezialist für digitale Transformation & Lerntechnologien</p>
         </div>
     </header>
@@ -170,14 +170,10 @@
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
 <script>
-  // 1. Kullanıcıyı tarayıcı bazlı ayırt etmek için benzersiz ID oluştur
-  let sessionID = localStorage.getItem('my_bot_session_id');
-  if (!sessionID) {
-    sessionID = 'vds-user-' + Math.random().toString(36).substring(2, 11);
-    localStorage.setItem('my_bot_session_id', sessionID);
-  }
+  // Tarayıcı bazlı benzersiz ID
+  let sessionID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
+  localStorage.setItem('my_bot_session_id', sessionID);
 
-  // 2. Metadata'yı yapılandırarak n8n'e taşınmasını sağla
   window.anythingLLMConfig = {
     metadata: {
       session_id: sessionID,
@@ -188,8 +184,8 @@
 
 <script
   data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
-  data-base-api-url="https://hay-debug-sugar-farm.trycloudflare.com/api/embed"
-  src="https://hay-debug-sugar-farm.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
+  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
 </script>
 </body>
 </html>
