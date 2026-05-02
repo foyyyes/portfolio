@@ -51,7 +51,7 @@
 <body>
     <header>
         <div class="intro">
-            <h1>Fatih Onur Yülers</h1>
+            <h1>Fatih Onur YülersS</h1>
             <p>Spezialist für digitale Transformation & Lerntechnologien</p>
         </div>
     </header>
@@ -169,26 +169,34 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-<div id="chat-container" style="width: 100%; max-width: 1000px; margin: 20px auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd;">
+<div id="my-custom-chat-container" style="width: 100%; max-width: 1000px; height: 700px; margin: 20px auto; border: 1px solid #ddd; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
 </div>
 
 <script>
-  // 1. Session ID (n8n susturma filtresi için yine oluşturuyoruz)
+  // 2. Kullanıcıyı ayırt etmek için Session ID (n8n susturma filtresi için şart)
   let sID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
   localStorage.setItem('my_bot_session_id', sID);
 
-  // 2. Chatbotu Iframe olarak yükle
-  const iframe = document.createElement('iframe');
-  
-  // DİKKAT: Adresteki /embed/ kısmını /e/ olarak değiştirdik.
-  iframe.src = `https://barry-keeps-translate-until.trycloudflare.com/e/3315f6f1-a1c2-415d-b7d6-473d05c99984`;
-  
-  iframe.style.width = "100%";
-  iframe.style.height = "700px"; // Yüksekliği buradan istediğin gibi artırabilirsin
-  iframe.style.border = "none";
-  iframe.setAttribute("allow", "microphone"); // Eğer sesli komut kullanacaksan
-
-  document.getElementById('chat-container').appendChild(iframe);
+  // 3. AnythingLLM Yapılandırması
+  window.anythingLLMConfig = {
+    // BURASI KRİTİK: Chatbotu aşağıdaki ID'li kutunun içine yerleştirir
+    containerId: 'my-custom-chat-container', 
+    metadata: {
+      session_id: sID,
+      kaynak: "GitHub_Portfolio"
+    }
+  };
 </script>
+
+<script
+  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
+  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
+  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+</script>
+
+<style>
+  /* Sağ alttaki o küçük butonu gizleyelim, çünkü zaten chatbot açık gelecek */
+  #anything-llm-chat-widget-button { display: none !important; }
+</style>
 </body>
 </html>
