@@ -169,30 +169,26 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-<div id="chat-frame-container" style="width: 100%; max-width: 900px; margin: 20px auto; min-height: 600px;">
+<div id="chat-container" style="width: 100%; max-width: 1000px; margin: 20px auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd;">
 </div>
 
 <script>
-  // 1. Session ID Oluşturma (n8n susturma filtresi için şart)
+  // 1. Session ID (n8n susturma filtresi için yine oluşturuyoruz)
   let sID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
   localStorage.setItem('my_bot_session_id', sID);
 
-  // 2. Chatbotu Iframe olarak oluşturma
+  // 2. Chatbotu Iframe olarak yükle
   const iframe = document.createElement('iframe');
   
-  // Cloudflare linkin ve Embed ID'ni birleştiriyoruz
-  // Not: ?session_id ekleyerek n8n'e bu veriyi paslamayı deniyoruz
-  iframe.src = `https://barry-keeps-translate-until.trycloudflare.com/embed/3315f6f1-a1c2-415d-b7d6-473d05c99984`;
+  // DİKKAT: Adresteki /embed/ kısmını /e/ olarak değiştirdik.
+  iframe.src = `https://barry-keeps-translate-until.trycloudflare.com/e/3315f6f1-a1c2-415d-b7d6-473d05c99984`;
   
-  // Tasarım Ayarları
   iframe.style.width = "100%";
-  iframe.style.height = "650px"; // Buradan yüksekliği ayarlayabilirsin
-  iframe.style.border = "1px solid #e0e0e0";
-  iframe.style.borderRadius = "15px";
-  iframe.style.boxShadow = "0 10px 30px rgba(0,0,0,0.1)";
+  iframe.style.height = "700px"; // Yüksekliği buradan istediğin gibi artırabilirsin
+  iframe.style.border = "none";
+  iframe.setAttribute("allow", "microphone"); // Eğer sesli komut kullanacaksan
 
-  // Ekrana bas
-  document.getElementById('chat-frame-container').appendChild(iframe);
+  document.getElementById('chat-container').appendChild(iframe);
 </script>
 </body>
 </html>
