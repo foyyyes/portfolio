@@ -51,7 +51,7 @@
 <body>
     <header>
         <div class="intro">
-            <h1>Fatih Onur Yüler</h1>
+            <h1>Fatih Onur YülersS</h1>
             <p>Spezialist für digitale Transformation & Lerntechnologien</p>
         </div>
     </header>
@@ -169,17 +169,11 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-<div id="chat-frame" style="width: 100%; max-width: 1000px; height: 750px; margin: 20px auto; position: relative; border-radius: 15px; overflow: hidden; border: 1px solid #ddd; background: #fff;">
-</div>
+<div id="chat-frame-master" style="width: 100%; max-width: 1000px; height: 750px; margin: 20px auto; position: relative; border-radius: 15px; overflow: hidden; border: 1px solid #ddd; background: #fff;">
+  </div>
 
 <style>
-  /* Baloncuğu tamamen gizle */
-  #anything-llm-chat-widget-button { 
-    display: none !important; 
-    visibility: hidden !important; 
-  }
-
-  /* Chat penceresini ekranın köşesinden alıp kutunun içine tam oturt */
+  /* 2. Widget'ın 'Yüzen' (Floating) yapısını bozup kutuya hapsediyoruz */
   #anything-llm-chat-widget-container {
     position: absolute !important;
     top: 0 !important;
@@ -188,8 +182,15 @@
     height: 100% !important;
     right: auto !important;
     bottom: auto !important;
-    display: block !important;
+    display: block !important; /* Gizli gelirse zorla göster */
     z-index: 1 !important;
+  }
+
+  /* Butonu kullanıcıdan tamamen gizle (Arka planda biz tıklayacağız) */
+  #anything-llm-chat-widget-button { 
+    opacity: 0 !important; 
+    pointer-events: none !important;
+    position: absolute !important;
   }
 </style>
 
@@ -198,24 +199,35 @@
   let sID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
   localStorage.setItem('my_bot_session_id', sID);
 
-  // 4. AnythingLLM Ayarları
   window.anythingLLMConfig = {
-    containerId: 'chat-frame', // Kutunun ID'si
+    containerId: 'chat-frame-master',
     metadata: {
       session_id: sID,
-      kaynak: "GitHub_Site"
+      kaynak: "GitHub_Portfolio"
     }
   };
 
-  // 5. "Otomatik Açma" Hilesi
-  // Script yüklendikten kısa bir süre sonra butona basılmış gibi yapar
-  const forceOpenChat = setInterval(() => {
+  // 4. MutationObserver: Sayfada yeni bir element (buton) oluştuğunda anında yakala
+  const observer = new MutationObserver((mutations) => {
     const btn = document.getElementById('anything-llm-chat-widget-button');
+    const chatWindow = document.getElementById('anything-llm-chat-widget-container');
+
     if (btn) {
-      btn.click();
-      clearInterval(forceOpenChat); // Açıldıktan sonra kontrolü bırak
+      console.log("Buton yakalandı, tıklanıyor...");
+      btn.click(); // Pencereyi aç
+      
+      // Pencere açıldıktan sonra butonu DOM'dan tamamen silebiliriz
+      btn.style.display = 'none'; 
+      
+      // İstediğimiz her şey tamamsa izlemeyi durdur
+      if (chatWindow && chatWindow.classList.contains('showing')) {
+          observer.disconnect();
+      }
     }
-  }, 500); // Her yarım saniyede bir butonu kontrol et
+  });
+
+  // Sayfanın tamamını izlemeye başla
+  observer.observe(document.body, { childList: true, subtree: true });
 </script>
 
 <script
