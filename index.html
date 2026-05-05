@@ -169,80 +169,26 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-<div id="chat-frame-master" style="width: 100%; max-width: 1000px; height: 750px; margin: 20px auto; position: relative; border-radius: 15px; overflow: hidden; border: 1px solid #ddd; background: #fff;">
-  </div>
+<div id="chat-container" style="width: 100%; max-width: 1000px; margin: 20px auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd; background: #fff;">
+  
+  <iframe 
+    id="anything-llm-chat"
+    src="https://barry-keeps-translate-until.trycloudflare.com/embed/3315f6f1-a1c2-415d-b7d6-473d05c99984" 
+    style="width: 100%; height: 750px; border: none;"
+    allow="microphone">
+  </iframe>
 
-<style>
-  /* 2. Widget'ın 'Yüzen' (Floating) yapısını bozup kutuya hapsediyoruz */
-  #anything-llm-chat-widget-container {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    right: auto !important;
-    bottom: auto !important;
-    display: block !important; /* Gizli gelirse zorla göster */
-    z-index: 1 !important;
-  }
-
-  /* Butonu kullanıcıdan tamamen gizle (Arka planda biz tıklayacağız) */
-  #anything-llm-chat-widget-button { 
-    opacity: 0 !important; 
-    pointer-events: none !important;
-    position: absolute !important;
-  }
-</style>
+</div>
 
 <script>
-  // 3. Session ID Oluşturma
+  // n8n tarafında "kim yazıyor"u anlamak için Session ID mantığını URL'ye ekleyelim
+  const chatFrame = document.getElementById('anything-llm-chat');
   let sID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
   localStorage.setItem('my_bot_session_id', sID);
 
-  window.anythingLLMConfig = {
-    containerId: 'chat-frame-master',
-    metadata: {
-      session_id: sID,
-      kaynak: "GitHub_Portfolio"
-    }
-  };
-
-  // 4. MutationObserver: Widget butonu oluşunca yakala, tıkla, gizle
-  const SELECTORS = [
-    '#anything-llm-chat-widget-button',
-    '[id*="chat-widget-button"]',
-    '[id*="anythingllm"][id*="button"]',
-    '[class*="chat-widget-button"]',
-    '[class*="awc-button"]',
-    '[aria-label="Open Chat"]',
-    '[aria-label="open chat"]',
-  ];
-
-  function tryOpenChat() {
-    for (const sel of SELECTORS) {
-      const btn = document.querySelector(sel);
-      if (btn) {
-        btn.click();
-        btn.style.cssText += 'display:none!important;';
-        observer.disconnect();
-        return true;
-      }
-    }
-    return false;
-  }
-
-  const observer = new MutationObserver(() => { tryOpenChat(); });
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // Widget zaten yüklüyse direkt dene
-  window.addEventListener('load', () => { setTimeout(tryOpenChat, 500); });
-</script>
-
-<script
-  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
-  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
-  data-open-on-load="true"
-  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+  // Iframe adresinin sonuna session_id parametresi ekliyoruz (n8n'e iletmek için)
+  // AnythingLLM bunu URL'den okuyup metadata olarak n8n'e basabilir
+  chatFrame.src += `?session_id=${sID}`;
 </script>
 </body>
 </html>
