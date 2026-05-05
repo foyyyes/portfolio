@@ -51,7 +51,7 @@
 <body>
     <header>
         <div class="intro">
-            <h1>Fatih Onur Yülesr</h1>
+            <h1>Fatih Onur Yüler</h1>
             <p>Spezialist für digitale Transformation & Lerntechnologien</p>
         </div>
     </header>
@@ -169,26 +169,61 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-<div id="chat-container" style="width: 100%; max-width: 1000px; margin: 20px auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #ddd; background: #fff;">
-  
-  <iframe 
-    id="anything-llm-chat"
-    src="https://barry-keeps-translate-until.trycloudflare.com/embed/3315f6f1-a1c2-415d-b7d6-473d05c99984" 
-    style="width: 100%; height: 750px; border: none;"
-    allow="microphone">
-  </iframe>
+<div id="chat-frame-area" style="width: 100%; height: 750px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; position: relative;">
+    </div>
 
-</div>
+<script
+  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
+  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
+  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+</script>
+
+<style>
+    /* 1. Sağ alttaki küçük balon butonunu tamamen gizle */
+    #anything-llm-embed-chat-container button {
+        display: none !important;
+    }
+
+    /* 2. Chat penceresini bir balon olmaktan çıkar ve sayfaya yay */
+    #anything-llm-embed-chat-container {
+        position: relative !important;
+        bottom: unset !important;
+        right: unset !important;
+        width: 100% !important;
+        height: 750px !important;
+        max-height: 750px !important;
+        box-shadow: none !important;
+        z-index: 1 !important;
+    }
+
+    /* 3. İçindeki iframe'i her zaman görünür yap */
+    #anything-llm-embed-chat-container iframe {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
 
 <script>
-  // n8n tarafında "kim yazıyor"u anlamak için Session ID mantığını URL'ye ekleyelim
-  const chatFrame = document.getElementById('anything-llm-chat');
-  let sID = localStorage.getItem('my_bot_session_id') || 'vds-user-' + Math.random().toString(36).substring(2, 11);
-  localStorage.setItem('my_bot_session_id', sID);
-
-  // Iframe adresinin sonuna session_id parametresi ekliyoruz (n8n'e iletmek için)
-  // AnythingLLM bunu URL'den okuyup metadata olarak n8n'e basabilir
-  chatFrame.src += `?session_id=${sID}`;
+    // Widget yüklendiğinde onu hazırladığımız div'in içine taşıyalım
+    function forceShowChat() {
+        const widget = document.getElementById('anything-llm-embed-chat-container');
+        const target = document.getElementById('chat-frame-area');
+        
+        if (widget && target) {
+            target.appendChild(widget);
+            // AnythingLLM kütüphanesi fonksiyonu varsa çalıştır
+            if (window.AnythingLLM && typeof window.AnythingLLM.showChat === 'function') {
+                window.AnythingLLM.showChat();
+            }
+        } else {
+            // Henüz yüklenmediyse tekrar dene
+            setTimeout(forceShowChat, 500);
+        }
+    }
+    
+    // Sayfa yüklendikten sonra işlemi başlat
+    window.addEventListener('load', forceShowChat);
 </script>
 </body>
 </html>
