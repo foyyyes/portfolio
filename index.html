@@ -172,32 +172,29 @@
 <div id="chat-frame-area" style="width: 100%; height: 750px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; position: relative;">
     </div>
 
-<script
-  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
-  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
-  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
-</script>
+<div id="my-custom-chat-area" style="width: 100%; height: 700px; margin: 20px 0; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; position: relative; background: #f9f9f9;">
+    </div>
 
 <style>
-    /* 1. Sağ alttaki küçük balon butonunu tamamen gizle */
-    #anything-llm-embed-chat-container button {
+    /* 1. O sinir bozucu "+" butonunu tamamen yok et */
+    #anything-llm-embed-chat-container button#anything-llm-embed-chat-button {
         display: none !important;
+        visibility: hidden !important;
     }
 
-    /* 2. Chat penceresini bir balon olmaktan çıkar ve sayfaya yay */
+    /* 2. Chat penceresini sağ alttan sök ve serbest bırak */
     #anything-llm-embed-chat-container {
         position: relative !important;
-        bottom: unset !important;
-        right: unset !important;
+        bottom: auto !important;
+        right: auto !important;
         width: 100% !important;
-        height: 750px !important;
-        max-height: 750px !important;
+        height: 700px !important; /* Yüksekliği div ile aynı yapın */
         box-shadow: none !important;
-        z-index: 1 !important;
+        display: block !important; /* Her zaman görünür yap */
     }
 
-    /* 3. İçindeki iframe'i her zaman görünür yap */
-    #anything-llm-embed-chat-container iframe {
+    /* 3. İçindeki iframe'i her zaman görünür ve tam boy yap */
+    #anything-llm-embed-chat-container div[id^="anything-llm-embed-"] {
         display: block !important;
         width: 100% !important;
         height: 100% !important;
@@ -205,25 +202,26 @@
 </style>
 
 <script>
-    // Widget yüklendiğinde onu hazırladığımız div'in içine taşıyalım
-    function forceShowChat() {
+    function embedChat() {
         const widget = document.getElementById('anything-llm-embed-chat-container');
-        const target = document.getElementById('chat-frame-area');
+        const target = document.getElementById('my-custom-chat-area');
         
         if (widget && target) {
+            // Widget'ı sağ alttan alıp bizim div'in içine taşıyoruz
             target.appendChild(widget);
-            // AnythingLLM kütüphanesi fonksiyonu varsa çalıştır
+            
+            // AnythingLLM kütüphanesini pencereyi açmaya zorla
             if (window.AnythingLLM && typeof window.AnythingLLM.showChat === 'function') {
                 window.AnythingLLM.showChat();
             }
         } else {
-            // Henüz yüklenmediyse tekrar dene
-            setTimeout(forceShowChat, 500);
+            // Henüz render edilmediyse yarım saniye sonra tekrar dene
+            setTimeout(embedChat, 500);
         }
     }
-    
-    // Sayfa yüklendikten sonra işlemi başlat
-    window.addEventListener('load', forceShowChat);
+
+    // Sayfa yüklendiğinde başlat
+    window.addEventListener('load', embedChat);
 </script>
 </body>
 </html>
