@@ -169,59 +169,51 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
-<div id="chat-frame-area" style="width: 100%; height: 750px; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; position: relative;">
+//*****
+<div id="chatbot-container" style="width: 100%; height: 700px; border: 1px solid #ddd; border-radius: 12px; position: relative; overflow: hidden; background: #fff;">
     </div>
 
-<div id="my-custom-chat-area" style="width: 100%; height: 700px; margin: 20px 0; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; position: relative; background: #f9f9f9;">
-    </div>
+<script
+  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
+  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
+  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
+</script>
 
 <style>
-    /* 1. O sinir bozucu "+" butonunu tamamen yok et */
-    #anything-llm-embed-chat-container button#anything-llm-embed-chat-button {
+    /* 1. Sağ alttaki "+" butonunu tamamen gizle */
+    #anything-llm-embed-chat-button {
         display: none !important;
         visibility: hidden !important;
     }
 
-    /* 2. Chat penceresini sağ alttan sök ve serbest bırak */
+    /* 2. Chat penceresini olduğu yerden söküp bizim hazırladığımız alana çivile */
     #anything-llm-embed-chat-container {
-        position: relative !important;
-        bottom: auto !important;
-        right: auto !important;
-        width: 100% !important;
-        height: 700px !important; /* Yüksekliği div ile aynı yapın */
+        position: absolute !important;
+        top: 0 !important; left: 0 !important;
+        width: 100% !important; height: 100% !important;
+        max-height: none !important;
         box-shadow: none !important;
-        display: block !important; /* Her zaman görünür yap */
-    }
-
-    /* 3. İçindeki iframe'i her zaman görünür ve tam boy yap */
-    #anything-llm-embed-chat-container div[id^="anything-llm-embed-"] {
         display: block !important;
-        width: 100% !important;
-        height: 100% !important;
     }
 </style>
 
 <script>
-    function embedChat() {
+    function chatAc() {
         const widget = document.getElementById('anything-llm-embed-chat-container');
-        const target = document.getElementById('my-custom-chat-area');
+        const alan = document.getElementById('chatbot-container');
         
-        if (widget && target) {
-            // Widget'ı sağ alttan alıp bizim div'in içine taşıyoruz
-            target.appendChild(widget);
-            
-            // AnythingLLM kütüphanesini pencereyi açmaya zorla
+        if (widget && alan) {
+            alan.appendChild(widget); // Widget'ı kutunun içine taşı
+            // Butona basılmış gibi gösteren komut
             if (window.AnythingLLM && typeof window.AnythingLLM.showChat === 'function') {
                 window.AnythingLLM.showChat();
             }
         } else {
-            // Henüz render edilmediyse yarım saniye sonra tekrar dene
-            setTimeout(embedChat, 500);
+            setTimeout(chatAc, 300);
         }
     }
-
-    // Sayfa yüklendiğinde başlat
-    window.addEventListener('load', embedChat);
+    window.addEventListener('load', chatAc);
 </script>
+//*****
 </body>
 </html>
