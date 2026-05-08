@@ -170,7 +170,7 @@
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
 
-<div id="chat-host-area" style="width: 100%; height: 700px; border: 2px solid #333; border-radius: 12px; position: relative; overflow: hidden; background: white;">
+<div id="chatbot-sabit-cerceve" style="width: 100%; height: 700px; border: 1px solid #ddd; border-radius: 12px; position: relative; overflow: hidden; background: #fff;">
     </div>
 
 <script
@@ -180,10 +180,10 @@
 </script>
 
 <style>
-    /* 1. Balon butonu tamamen yok et */
+    /* 1. Balon butonu ve küçük pencereyi imha et */
     #anything-llm-embed-chat-button { display: none !important; }
 
-    /* 2. Chat kabını sağ alttan sök ve bizim div'e göre ayarla */
+    /* 2. Chat penceresini olduğu yerden söküp div'in içine yerleştir */
     #anything-llm-embed-chat-container {
         position: absolute !important;
         top: 0 !important;
@@ -191,37 +191,41 @@
         width: 100% !important;
         height: 100% !important;
         max-height: none !important;
+        bottom: auto !important;
+        right: auto !important;
+        box-shadow: none !important;
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        box-shadow: none !important;
     }
 
-    /* 3. İçindeki iframe'in 404 vermemesi için görünürlüğü zorla */
+    /* 3. İçerideki iframe'in görünürlüğünü garantiye al */
     #anything-llm-embed-chat-container iframe {
         display: block !important;
         width: 100% !important;
         height: 100% !important;
-        border: none !important;
     }
 </style>
 
 <script>
-    function forceEmbed() {
+    function chatOperasyonu() {
         const widget = document.getElementById('anything-llm-embed-chat-container');
-        const target = document.getElementById('chat-host-area');
+        const hedef = document.getElementById('chatbot-sabit-cerceve');
         
-        if (widget && target) {
-            target.appendChild(widget);
-            // AnythingLLM widget'ını 'açık' duruma getir
-            if (window.AnythingLLM) {
+        if (widget && hedef) {
+            hedef.appendChild(widget); // Widget'ı kutuya taşı
+            
+            // "Pencereyi aç" komutunu zorla gönder
+            if (window.AnythingLLM && typeof window.AnythingLLM.showChat === 'function') {
                 window.AnythingLLM.showChat();
             }
         } else {
-            setTimeout(forceEmbed, 500);
+            // Widget henüz hazır değilse tekrar dene
+            setTimeout(chatOperasyonu, 500);
         }
     }
-    window.addEventListener('load', forceEmbed);
+    // Sayfa tamamen yüklendiğinde çalıştır
+    window.addEventListener('load', chatOperasyonu);
 </script>
 
 </body>
