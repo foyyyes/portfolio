@@ -188,6 +188,13 @@
     </div>
 </div>
     <script>
+headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${API_KEY}`,
+    'X-Bypass-Cloudflare-Access': 'true', // Bazı tünellerde bu istenir
+    'bypass-tunnel-reminder': 'true'     // Mavi ekranı atlamak için şart
+},
+        
         const EMBED_ID = "3315f6f1-a1c2-415d-b7d6-473d05c99984";
 const API_URL = `https://barry-keeps-translate-until.trycloudflare.com/api/embed/${EMBED_ID}/chat`;
 const API_KEY = "K5H0SFV-DNEM0CD-KTDYT2N-1KW9REQ"; // Embed ayarlarındaki key
