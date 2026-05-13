@@ -217,12 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`,
-                    'X-Bypass-Cloudflare-Access': 'true',
-                    'bypass-tunnel-reminder': 'true' 
-                },
+headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`,
+            // Cloudflare'in onay sayfasını atlamasını sağlayan kritik satırlar:
+            'ngrok-skip-browser-warning': 'true', // Bazen tüneller bunu da kabul eder
+            'bypass-tunnel-reminder': 'true'     // Cloudflare için asıl gerekli olan
+        },
                 body: JSON.stringify({ message: msg })
             });
 
