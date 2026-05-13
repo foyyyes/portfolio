@@ -190,7 +190,7 @@
     <script>
   // 1. Yapılandırma ve Değişkenler
 const EMBED_ID = "3315f6f1-a1c2-415d-b7d6-473d05c99984";
-const API_URL = `https://barry-keeps-translate-until.trycloudflare.com/api/embed/${EMBED_ID}/chat`;
+const API_URL = `https://barry-keeps-translate-until.trycloudflare.com/webhook/ai-chat`;
 const API_KEY = "K5H0SFV-DNEM0CD-KTDYT2N-1KW9REQ";
 
 // 2. Sayfa yüklendiğinde çalışacak ana blok
@@ -214,26 +214,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Bot için "Düşünüyorum..." baloncuğu oluştur
         const tempId = appendMsg("Düşünüyorum...", 'bot');
 
-        try {
-            const res = await fetch(API_URL, {
-                method: 'POST',
-headers: {
+// fetch kısmını şu şekilde sadeleştiriyoruz:
+try {
+    const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`,
-            // Cloudflare'in onay sayfasını atlamasını sağlayan kritik satırlar:
-            'ngrok-skip-browser-warning': 'true', // Bazen tüneller bunu da kabul eder
-            'bypass-tunnel-reminder': 'true'     // Cloudflare için asıl gerekli olan
+            // n8n kullanırken bypass başlığına genellikle gerek kalmaz ama garanti olsun:
+            'bypass-tunnel-reminder': 'true'
         },
-                body: JSON.stringify({ message: msg })
-            });
+        body: JSON.stringify({ message: msg })
+    });
 
-            const data = await res.json();
-            // "Düşünüyorum..." yazısını gerçek cevapla güncelle
-            updateMsg(tempId, data.content || "Anlayamadım, tekrar eder misiniz?");
-        } catch (err) {
-            console.error("Bağlantı Hatası:", err);
-            updateMsg(tempId, "Bağlantı hatası! Lütfen tünelin açık olduğundan emin olun.");
-        }
+    const data = await res.json();
+    // n8n'den gelen verinin yapısına göre burayı güncelle (Örn: data.content)
+    updateMsg(tempId, data.content || "Mesaj alındı.");
+} catch (err) {
+    console.error("Bağlantı Hatası:", err);
+    updateMsg(tempId, "n8n köprüsü üzerinden bağlantı kurulamadı.");
+}
     }
 
     // 4. Yardımcı Fonksiyonlar (Eksik olan kısım burasıydı)
