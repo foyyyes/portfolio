@@ -189,23 +189,23 @@
 </div>
     <script>
        
+// 1. Önce değişkenleri tanımlıyoruz (En Üste)
 const EMBED_ID = "3315f6f1-a1c2-415d-b7d6-473d05c99984";
-const API_URL = `http://92.5.38.154:3001/api/embed`;
-const API_KEY = "K5H0SFV-DNEM0CD-KTDYT2N-1KW9REQ"; // Embed ayarlarındaki key
+const API_URL = `https://barry-keeps-translate-until.trycloudflare.com/api/embed/${EMBED_ID}/chat`;
+const API_KEY = "K5H0SFV-DNEM0CD-KTDYT2N-1KW9REQ";
 
+// 2. Elementleri seçiyoruz
 const flow = document.getElementById('chat-flow');
 const input = document.getElementById('chat-input');
 const btn = document.getElementById('chat-send');
 
+// 3. Fonksiyonu tanımlıyoruz
 async function askAI() {
     const msg = input.value.trim();
     if (!msg) return;
 
-    // Kullanıcı mesajını ekle
     appendMsg(msg, 'user');
     input.value = '';
-
-    // Bekleme efekti
     const tempId = appendMsg("Düşünüyorum...", 'bot');
 
     try {
@@ -213,42 +213,25 @@ async function askAI() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${API_KEY}`
+                'Authorization': `Bearer ${API_KEY}`,
+                'X-Bypass-Cloudflare-Access': 'true',
+                'bypass-tunnel-reminder': 'true' 
             },
             body: JSON.stringify({ message: msg })
         });
 
+        if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
+
         const data = await res.json();
         updateMsg(tempId, data.content);
     } catch (err) {
-        updateMsg(tempId, "Şu an yanıt veremiyorum. Lütfen tünelin açık olduğunu kontrol edin.");
+        console.error("Hata Detayı:", err);
+        updateMsg(tempId, "Şu an bağlantı kurulamadı. Tünel adresini ve AnythingLLM CORS ayarlarını kontrol edin.");
     }
 }
 
-function appendMsg(text, type) {
-    const id = Date.now();
-    const div = document.createElement('div');
-    div.id = id;
-    div.style.padding = "12px";
-    div.style.borderRadius = type === 'user' ? "15px 15px 0 15px" : "15px 15px 15px 0";
-    div.style.alignSelf = type === 'user' ? "flex-end" : "flex-start";
-    div.style.background = type === 'user' ? "#0766d6" : "#eaf3ff";
-    div.style.color = type === 'user' ? "white" : "#333";
-    div.style.maxWidth = "80%";
-    div.style.fontSize = "14px";
-    div.innerText = text;
-    flow.appendChild(div);
-    flow.scrollTop = flow.scrollHeight;
-    return id;
-}
-
-function updateMsg(id, text) {
-    const el = document.getElementById(id);
-    if (el) el.innerText = text;
-}
-
+// 4. Dinleyiciyi bağlıyoruz (En Alta)
 btn.addEventListener('click', askAI);
-input.addEventListener('keypress', (e) => { if (e.key === 'Enter') askAI(); });
     </script>
 
 </body>
