@@ -169,64 +169,16 @@
         // select first by default
         if(projects.length) selectProject(projects[0].id, document.querySelector('.project-item'));
     </script>
+<div id="chatbot-konteyner" style="width: 100%; max-width: 1100px; margin: 20px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.1); border: 1px solid #ddd; background: #fff;">
+    <iframe 
+        src="https://barry-keeps-translate-until.trycloudflare.com/embed/3315f6f1-a1c2-415d-b7d6-473d05c99984" 
+        width="100%" 
+        height="700px" 
+        style="border: none; display: block;"
+        allow="clipboard-read; clipboard-write">
+    </iframe>
+</div>
 
-<div id="chatbot-sabit-cerceve" style="width: 100%; height: 700px; border: 1px solid #ddd; border-radius: 12px; position: relative; overflow: hidden; background: #fff;">
-    </div>
-
-<script
-  data-embed-id="3315f6f1-a1c2-415d-b7d6-473d05c99984"
-  data-base-api-url="https://barry-keeps-translate-until.trycloudflare.com/api/embed"
-  src="https://barry-keeps-translate-until.trycloudflare.com/embed/anythingllm-chat-widget.min.js">
-</script>
-
-<style>
-    /* 1. Balon butonu ve küçük pencereyi imha et */
-    #anything-llm-embed-chat-button { display: none !important; }
-
-    /* 2. Chat penceresini olduğu yerden söküp div'in içine yerleştir */
-    #anything-llm-embed-chat-container {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-height: none !important;
-        bottom: auto !important;
-        right: auto !important;
-        box-shadow: none !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-
-    /* 3. İçerideki iframe'in görünürlüğünü garantiye al */
-    #anything-llm-embed-chat-container iframe {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-    }
-</style>
-
-<script>
-    function chatOperasyonu() {
-        const widget = document.getElementById('anything-llm-embed-chat-container');
-        const hedef = document.getElementById('chatbot-sabit-cerceve');
-        
-        if (widget && hedef) {
-            hedef.appendChild(widget); // Widget'ı kutuya taşı
-            
-            // "Pencereyi aç" komutunu zorla gönder
-            if (window.AnythingLLM && typeof window.AnythingLLM.showChat === 'function') {
-                window.AnythingLLM.showChat();
-            }
-        } else {
-            // Widget henüz hazır değilse tekrar dene
-            setTimeout(chatOperasyonu, 500);
-        }
-    }
-    // Sayfa tamamen yüklendiğinde çalıştır
-    window.addEventListener('load', chatOperasyonu);
-</script>
 
 </body>
 </html>
