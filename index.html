@@ -216,23 +216,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // fetch kısmını şu şekilde sadeleştiriyoruz:
 try {
-    const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            // n8n kullanırken bypass başlığına genellikle gerek kalmaz ama garanti olsun:
-            'bypass-tunnel-reminder': 'true'
-        },
-        body: JSON.stringify({ message: msg })
-    });
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'bypass-tunnel-reminder': 'true' 
+            },
+            body: JSON.stringify({ message: msg })
+        });
 
-    const data = await res.json();
-    // n8n'den gelen verinin yapısına göre burayı güncelle (Örn: data.content)
-    updateMsg(tempId, data.content || "Mesaj alındı.");
-} catch (err) {
-    console.error("Bağlantı Hatası:", err);
-    updateMsg(tempId, "n8n köprüsü üzerinden bağlantı kurulamadı.");
-}
+        // GELEN ŞEYİ KONSOLA YAZDIRALIM
+        const text = await res.text();
+        console.log("Sunucudan Gelen Cevap:", text);
+
+        const data = JSON.parse(text); // Eğer JSON değilse burada hata verecek
+        updateMsg(tempId, data.content);
+    } catch (err) {
+        console.error("Detaylı Hata:", err);
+        updateMsg(tempId, "Bağlantı sorunu! Detaylar konsolda (F12).");
+    }
     }
 
     // 4. Yardımcı Fonksiyonlar (Eksik olan kısım burasıydı)
