@@ -189,49 +189,85 @@
 </div>
     <script>
        
-// 1. Önce değişkenleri tanımlıyoruz (En Üste)
+// 1. Yapılandırma ve Değişkenler
 const EMBED_ID = "3315f6f1-a1c2-415d-b7d6-473d05c99984";
 const API_URL = `https://barry-keeps-translate-until.trycloudflare.com/api/embed/${EMBED_ID}/chat`;
 const API_KEY = "K5H0SFV-DNEM0CD-KTDYT2N-1KW9REQ";
 
-// 2. Elementleri seçiyoruz
-const flow = document.getElementById('chat-flow');
-const input = document.getElementById('chat-input');
-const btn = document.getElementById('chat-send');
+// 2. Sayfa yüklendiğinde çalışacak ana blok
+document.addEventListener('DOMContentLoaded', () => {
+    const flow = document.getElementById('chat-flow');
+    const input = document.getElementById('chat-input');
+    const btn = document.getElementById('chat-send');
 
-// 3. Fonksiyonu tanımlıyoruz
-async function askAI() {
-    const msg = input.value.trim();
-    if (!msg) return;
+    // Elementler yoksa hata verme, sessizce dur (Güvenlik önlemi)
+    if (!flow || !input || !btn) return;
 
-    appendMsg(msg, 'user');
-    input.value = '';
-    const tempId = appendMsg("Düşünüyorum...", 'bot');
+    // 3. Mesaj Gönderme Fonksiyonu
+    async function askAI() {
+        const msg = input.value.trim();
+        if (!msg) return;
 
-    try {
-        const res = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${API_KEY}`,
-                'X-Bypass-Cloudflare-Access': 'true',
-                'bypass-tunnel-reminder': 'true' 
-            },
-            body: JSON.stringify({ message: msg })
-        });
+        // Kullanıcı mesajını ekrana bas
+        appendMsg(msg, 'user');
+        input.value = '';
 
-        if (!res.ok) throw new Error(`Sunucu hatası: ${res.status}`);
+        // Bot için "Düşünüyorum..." baloncuğu oluştur
+        const tempId = appendMsg("Düşünüyorum...", 'bot');
 
-        const data = await res.json();
-        updateMsg(tempId, data.content);
-    } catch (err) {
-        console.error("Hata Detayı:", err);
-        updateMsg(tempId, "Şu an bağlantı kurulamadı. Tünel adresini ve AnythingLLM CORS ayarlarını kontrol edin.");
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${API_KEY}`,
+                    'X-Bypass-Cloudflare-Access': 'true',
+                    'bypass-tunnel-reminder': 'true' 
+                },
+                body: JSON.stringify({ message: msg })
+            });
+
+            const data = await res.json();
+            // "Düşünüyorum..." yazısını gerçek cevapla güncelle
+            updateMsg(tempId, data.content || "Anlayamadım, tekrar eder misiniz?");
+        } catch (err) {
+            console.error("Bağlantı Hatası:", err);
+            updateMsg(tempId, "Bağlantı hatası! Lütfen tünelin açık olduğundan emin olun.");
+        }
     }
-}
 
-// 4. Dinleyiciyi bağlıyoruz (En Alta)
-btn.addEventListener('click', askAI);
+    // 4. Yardımcı Fonksiyonlar (Eksik olan kısım burasıydı)
+    function appendMsg(text, type) {
+        const id = 'msg-' + Date.now();
+        const div = document.createElement('div');
+        div.id = id;
+        div.style.padding = "12px";
+        div.style.marginBottom = "10px";
+        div.style.borderRadius = type === 'user' ? "15px 15px 0 15px" : "15px 15px 15px 0";
+        div.style.alignSelf = type === 'user' ? "flex-end" : "flex-start";
+        div.style.background = type === 'user' ? "#0766d6" : "#eaf3ff";
+        div.style.color = type === 'user' ? "white" : "#333";
+        div.style.maxWidth = "80%";
+        div.style.fontSize = "14px";
+        div.style.wordWrap = "break-word";
+        div.innerText = text;
+        
+        flow.appendChild(div);
+        flow.scrollTop = flow.scrollHeight; // Otomatik aşağı kaydır
+        return id;
+    }
+
+    function updateMsg(id, text) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = text;
+    }
+
+    // 5. Olay Dinleyiciler
+    btn.addEventListener('click', askAI);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') askAI();
+    });
+});
     </script>
 
 </body>
