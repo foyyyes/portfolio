@@ -10,9 +10,49 @@
         *{box-sizing:border-box}
         body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--muted)}
 
-        header{background:var(--accent);color:#fff;padding:36px 20px;text-align:center}
-        header h1{margin:0;font-size:28px}
-        header .intro p{margin:6px 0 0;font-size:15px;opacity:0.95}
+        header{
+            background:linear-gradient(130deg,#0a4da2 0%, #0766d6 52%, #2f89ef 100%);
+            color:#fff;
+            padding:34px 20px;
+            position:relative;
+            overflow:hidden;
+        }
+        header::before{
+            content:"";
+            position:absolute;
+            width:420px;
+            height:420px;
+            right:-160px;
+            top:-170px;
+            background:radial-gradient(circle, rgba(255,255,255,0.26) 0%, rgba(255,255,255,0) 70%);
+            pointer-events:none;
+        }
+        .hero{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:center;position:relative;z-index:1}
+        .profile-shell{position:relative;display:flex;align-items:center;justify-content:center}
+        .profile-shell::before{
+            content:"";
+            position:absolute;
+            width:224px;
+            height:224px;
+            border-radius:44% 56% 60% 40% / 50% 42% 58% 50%;
+            background:linear-gradient(145deg, rgba(255,255,255,0.95), rgba(234,244,255,0.55));
+            transform:rotate(-10deg);
+            filter:drop-shadow(0 18px 26px rgba(3,18,43,0.26));
+        }
+        .profile-frame{
+            width:196px;
+            aspect-ratio:1/1;
+            border-radius:44% 56% 60% 40% / 50% 42% 58% 50%;
+            overflow:hidden;
+            position:relative;
+            z-index:1;
+            border:4px solid rgba(255,255,255,0.92);
+            box-shadow:0 14px 28px rgba(3,18,43,0.28);
+            background:#eaf2fd;
+        }
+        .profile-frame img{width:100%;height:100%;object-fit:cover;object-position:center 14%;transform:scale(1.06)}
+        header h1{margin:0;font-size:34px;line-height:1.1;letter-spacing:0.3px}
+        header .intro p{margin:10px 0 0;font-size:16px;opacity:0.96;max-width:640px}
 
         .wrap{max-width:1100px;margin:28px auto;padding:0 16px;display:grid;grid-template-columns:280px 1fr;gap:20px}
 
@@ -45,14 +85,29 @@
         .lightbox-close{position:absolute;top:18px;right:22px;font-size:28px;color:white;cursor:pointer}
 
         /* Responsive */
-        @media(max-width:880px){.wrap{grid-template-columns:1fr} .sidebar{order:2} .main{order:1}}
+        @media(max-width:880px){
+            .wrap{grid-template-columns:1fr}
+            .sidebar{order:2}
+            .main{order:1}
+            .hero{grid-template-columns:1fr;text-align:center;gap:18px}
+            .profile-shell{margin:0 auto}
+            header h1{font-size:30px}
+            header .intro p{margin:8px auto 0}
+        }
     </style>
 </head>
 <body>
     <header>
+        <div class="hero">
+            <div class="profile-shell">
+                <div class="profile-frame">
+                    <img src="foto.png" alt="Fatih Onur Yüler portrait">
+                </div>
+            </div>
         <div class="intro">
-            <h1>Fatih Onur Yuler</h1>
+            <h1>Fatih Onur Yüler</h1>
             <p>Spezialist für digitale Transformation & Lerntechnologien</p>
+        </div>
         </div>
     </header>
 
