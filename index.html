@@ -216,26 +216,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // fetch kısmını şu şekilde sadeleştiriyoruz:
 try {
-        const res = await fetch(API_URL, {
-            method: 'POST',
-           // mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'bypass-tunnel-reminder': 'true' 
-            },
-            body: JSON.stringify({ message: msg })
-        });
+    const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'bypass-tunnel-reminder': 'true' 
+        },
+        body: JSON.stringify({ message: msg })
+    });
 
-        // GELEN ŞEYİ KONSOLA YAZDIRALIM
-        const text = await res.text();
-        console.log("Sunucudan Gelen Cevap:", text);
+    const text = await res.text();
+    console.log("Sunucudan Gelen Cevap:", text);
 
-        const data = JSON.parse(text); // Eğer JSON değilse burada hata verecek
-        updateMsg(tempId, data.content);
-    } catch (err) {
-        console.error("Detaylı Hata:", err);
-        updateMsg(tempId, "Bağlantı sorunu! Detaylar konsolda (F12).");
-    }
+    const data = JSON.parse(text);
+
+    // DİKKAT: AnythingLLM cevabı genellikle bir dizi (array) içinde veya doğrudan 'textResponse' olarak döner.
+    // Bu kontrol her iki durumu da kurtarır:
+    const aiMessage = (Array.isArray(data) ? data[0].textResponse : data.textResponse) || "Cevap formatı anlaşılamadı.";
+
+    updateMsg(tempId, aiMessage);
+
+} catch (err) {
+    console.error("Detaylı Hata:", err);
+    updateMsg(tempId, "Bağlantı sorunu yaşandı!");
+}
     }
 
     // 4. Yardımcı Fonksiyonlar (Eksik olan kısım burasıydı)
